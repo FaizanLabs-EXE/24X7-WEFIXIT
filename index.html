@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#08111f">
+  <meta name="description" content="24×7 WEFIXIT — mobile repair customer, job, payment and PDF management workspace.">
+  <meta name="application-name" content="24×7 WEFIXIT">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>24×7 WEFIXIT — Repair Workspace</title>
+</head>
+<body>
+  <div id="splash" class="splash" aria-hidden="true">
+    <div class="splash-orbit orbit-a"></div><div class="splash-orbit orbit-b"></div>
+    <div class="splash-mark"><span class="brand-symbol">W</span><span class="splash-spark">✦</span></div>
+    <div class="splash-title">24×7 <b>WEFIXIT</b></div>
+    <div class="splash-subtitle">REPAIR WORKSPACE · BUILT FOR THE FLOOR</div>
+    <div class="splash-progress"><i></i></div>
+  </div>
+
+  <div id="auth-screen" class="auth-screen hidden">
+    <div class="auth-card glass-panel">
+      <div class="brand-lockup"><div class="brand-logo">W<span>+</span></div><div><div class="brand-name">24×7 WEFIXIT</div><div class="brand-caption">REPAIR MANAGEMENT SYSTEM</div></div></div>
+      <div class="auth-kicker">AUTHORIZED WORKSPACE</div>
+      <h1>Welcome back<span class="accent">.</span></h1>
+      <p class="muted">Enter the shop access password to open the shared repair desk.</p>
+      <form id="login-form" autocomplete="on">
+        <label class="field-label" for="worker-name">Your name <span class="optional">for activity records</span></label>
+        <input id="worker-name" class="control" autocomplete="name" maxlength="50" placeholder="e.g. Faizan / Technician 01">
+        <label class="field-label" for="access-password">Workspace password</label>
+        <div class="password-wrap"><input id="access-password" class="control" type="password" autocomplete="current-password" placeholder="Enter access password" required><button type="button" class="icon-btn reveal-password" aria-label="Show password">◉</button></div>
+        <button class="btn btn-primary btn-full" type="submit"><span>Unlock workspace</span><span>↗</span></button>
+      </form>
+      <div id="auth-error" class="inline-error" role="alert"></div>
+      <div class="auth-foot"><span class="status-dot"></span><span id="auth-connection">Checking secure connection…</span></div>
+      <div class="auth-signature">╰─➤ ⚡ 𝐁𝐔𝐈𝐋𝐓 𝐁𝐘 𝐅𝐀𝐈𝐙𝐀𝐍</div>
+    </div>
+    <div class="auth-side-note">PRIVATE SHOP DATA · AUTHORIZED STAFF ONLY</div>
+  </div>
+
+  <div id="app-shell" class="app-shell hidden">
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo small">W<span>+</span></div>
+        <div class="brand-name-wrap"><strong>24×7 WEFIXIT</strong><small>REPAIR WORKSPACE</small></div>
+        <button id="sidebar-close" class="icon-btn sidebar-close" aria-label="Close menu">×</button>
+      </div>
+      <div class="workspace-chip"><span class="pulse-dot"></span><span>SHOP WORKSPACE</span><span class="live-label">LIVE</span></div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <div class="nav-caption">WORKSPACE</div>
+        <button class="nav-item active" data-view="dashboard"><span class="nav-ico">◫</span><span>Overview</span><kbd>01</kbd></button>
+        <button class="nav-item" data-view="new"><span class="nav-ico">＋</span><span>New repair</span><kbd>02</kbd></button>
+        <button class="nav-item" data-view="jobs"><span class="nav-ico">▤</span><span>Repair register</span><kbd>03</kbd></button>
+        <button class="nav-item" data-view="customers"><span class="nav-ico">♙</span><span>Customers</span><kbd>04</kbd></button>
+        <div class="nav-caption nav-caption-gap">INSIGHTS</div>
+        <button class="nav-item" data-view="reports"><span class="nav-ico">▥</span><span>Reports & payments</span><kbd>05</kbd></button>
+        <button class="nav-item" data-view="activity"><span class="nav-ico">◷</span><span>Activity log</span><kbd>06</kbd></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sync-card"><div class="sync-card-top"><span class="sync-icon">⇅</span><span class="sync-label">CLOUD SYNC</span><span id="sync-indicator" class="sync-state state-local">LOCAL</span></div><p id="sync-message">Waiting for connection</p><button id="sync-now" class="sync-button">Sync now <span>↗</span></button></div>
+        <button class="nav-item settings-nav" data-view="settings"><span class="nav-ico">⚙</span><span>Settings</span></button>
+        <div class="profile-mini"><div class="avatar" id="user-avatar">W</div><div class="profile-copy"><strong id="user-display">Shop worker</strong><small>Authorized staff</small></div><button id="logout-btn" class="icon-btn" title="Lock workspace">↪</button></div>
+        <div class="signature">╰─➤ ⚡ 𝐁𝐔𝐈𝐋𝐓 𝐁𝐘 𝐅𝐀𝐈𝐙𝐀𝐍</div>
+      </div>
+    </aside>
+    <div id="sidebar-scrim" class="sidebar-scrim"></div>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-left"><button id="menu-toggle" class="icon-btn menu-toggle" aria-label="Open menu">☰</button><div class="breadcrumb"><span>WEFIXIT</span><i>/</i><strong id="breadcrumb-current">Overview</strong></div></div>
+        <div class="topbar-right">
+          <div class="global-search"><span>⌕</span><input id="global-search" type="search" placeholder="Search jobs, customers, phone…" autocomplete="off"><kbd>⌘ K</kbd><div id="global-search-results" class="search-popover hidden"></div></div>
+          <button id="install-btn" class="btn btn-quiet install-btn hidden">⇩ Install app</button>
+          <button id="top-sync" class="icon-btn sync-top" title="Sync records">⇅</button>
+          <div class="top-avatar" id="top-avatar">W</div>
+        </div>
+      </header>
+      <div class="connection-banner hidden" id="connection-banner"></div>
+
+      <section id="view-dashboard" class="view active-view">
+        <div class="page-heading"><div><div class="eyebrow">SATURDAY · SHOP OPERATIONS</div><h1>Good work starts <span class="accent">here.</span></h1><p class="muted">Your repair desk at a glance. Keep every device moving.</p></div><button class="btn btn-primary" data-action="new-repair">＋ Create repair</button></div>
+        <div class="metric-grid">
+          <article class="metric-card metric-featured"><div class="metric-top"><span>ACTIVE REPAIRS</span><span class="metric-icon">◌</span></div><div class="metric-value" id="metric-active">0</div><div class="metric-foot"><span class="metric-dot blue"></span>Currently in the workshop</div><div class="metric-glow"></div></article>
+          <article class="metric-card"><div class="metric-top"><span>READY / COMPLETED</span><span class="metric-icon green-icon">✓</span></div><div class="metric-value" id="metric-completed">0</div><div class="metric-foot"><span class="metric-dot green"></span>Ready for customer handover</div></article>
+          <article class="metric-card"><div class="metric-top"><span>AMOUNT COLLECTED</span><span class="metric-icon">₹</span></div><div class="metric-value" id="metric-collected">₹0</div><div class="metric-foot"><span class="metric-dot green"></span>Total payments received</div></article>
+          <article class="metric-card"><div class="metric-top"><span>PENDING AMOUNT</span><span class="metric-icon amber-icon">◷</span></div><div class="metric-value" id="metric-pending">₹0</div><div class="metric-foot"><span class="metric-dot amber"></span>Balance to collect</div></article>
+        </div>
+        <div class="dashboard-grid">
+          <section class="panel jobs-panel"><div class="panel-heading"><div><div class="eyebrow">WORK QUEUE</div><h2>Recent repairs</h2></div><button class="text-button" data-action="view-jobs">View register <span>↗</span></button></div><div id="recent-jobs" class="recent-list"></div><div id="recent-empty" class="empty-state compact-empty"><span>▤</span><strong>No repair jobs yet</strong><p>Create your first customer repair record.</p><button class="btn btn-secondary" data-action="new-repair">Create first repair</button></div></section>
+          <section class="panel quick-panel"><div class="panel-heading"><div><div class="eyebrow">QUICK ACTIONS</div><h2>Move faster</h2></div><span class="panel-spark">✦</span></div><button class="quick-action" data-action="new-repair"><span class="quick-icon violet">＋</span><span><strong>New repair entry</strong><small>Register a device in seconds</small></span><b>↗</b></button><button class="quick-action" data-action="view-customers"><span class="quick-icon teal">♙</span><span><strong>Find a customer</strong><small>Open customer history</small></span><b>↗</b></button><button class="quick-action" data-action="export-data"><span class="quick-icon amber">⇩</span><span><strong>Export records</strong><small>Download a local backup</small></span><b>↗</b></button><div class="today-note"><span class="note-star">✦</span><div><strong>One shared repair desk.</strong><p>Changes sync to other staff when the cloud connection is available.</p></div></div></section>
+        </div>
+        <section class="panel status-panel"><div class="panel-heading"><div><div class="eyebrow">REPAIR FLOW</div><h2>Workshop pipeline</h2></div><span class="small-muted" id="pipeline-total">0 total jobs</span></div><div class="pipeline" id="pipeline"></div></section>
+      </section>
+
+      <section id="view-new" class="view">
+        <div class="page-heading form-heading"><div><div class="eyebrow">JOB INTAKE · REPAIR DESK</div><h1 id="form-page-title">Create a <span class="accent">repair.</span></h1><p class="muted">Customer details, device condition, service and payment — all in one report.</p></div><div class="form-heading-actions"><span class="draft-indicator" id="draft-state"><i></i> Draft saves locally</span><button class="btn btn-quiet" id="reset-form">Reset form</button></div></div>
+        <form id="repair-form" class="repair-form">
+          <input type="hidden" id="job-id">
+          <div class="form-layout">
+            <div class="form-main-col">
+              <section class="panel form-card"><div class="form-section-head"><div class="section-number">01</div><div><h2>Customer information</h2><p>Find an existing customer or add a new one.</p></div><span class="required-note">* Required</span></div>
+                <div class="customer-lookup"><div class="lookup-input-wrap"><label class="field-label" for="customer-lookup">Quick customer lookup</label><div class="input-with-icon"><span>⌕</span><input id="customer-lookup" class="control" list="customer-options" placeholder="Search name or mobile number…" autocomplete="off"><datalist id="customer-options"></datalist></div></div><div class="lookup-hint">Existing customer? Select to prefill details.</div></div>
+                <div class="form-grid two-col"><div class="field"><label class="field-label" for="customer-type">Customer type <b>*</b></label><select id="customer-type" class="control" required><option value="Customer">Customer</option><option value="Retailer">Retailer</option></select></div><div class="field"><label class="field-label" for="customer-name">Customer name <b>*</b></label><input id="customer-name" class="control" maxlength="100" placeholder="Full name" required></div><div class="field"><label class="field-label" for="customer-phone">Phone number <b>*</b></label><input id="customer-phone" class="control" inputmode="tel" maxlength="16" placeholder="10-digit mobile number" required></div><div class="field"><label class="field-label" for="customer-alt-phone">Alternate phone <span class="optional">Optional</span></label><input id="customer-alt-phone" class="control" inputmode="tel" maxlength="16" placeholder="Alternate contact number"></div></div>
+                <div id="existing-customer-hint" class="existing-hint hidden"><span>✦</span><span id="existing-customer-text">Existing customer found.</span><button type="button" id="prefill-customer" class="text-button">Prefill details</button></div>
+              </section>
+              <section class="panel form-card"><div class="form-section-head"><div class="section-number">02</div><div><h2>Device & repair details</h2><p>Capture the device identity and reported issue.</p></div></div>
+                <div class="form-grid two-col"><div class="field"><label class="field-label" for="device-brand">Device brand <b>*</b></label><input id="device-brand" class="control" list="brand-options" placeholder="e.g. Samsung, Vivo, Apple" required><datalist id="brand-options"><option>Samsung</option><option>Apple</option><option>Vivo</option><option>OPPO</option><option>OnePlus</option><option>Xiaomi</option><option>Redmi</option><option>Realme</option><option>Motorola</option><option>Google Pixel</option><option>Infinix</option><option>iQOO</option></datalist></div><div class="field"><label class="field-label" for="device-model">Device model <b>*</b></label><input id="device-model" class="control" maxlength="80" placeholder="e.g. iPhone 13 / Y28 5G" required></div><div class="field"><label class="field-label" for="device-imei">IMEI / Serial number <span class="optional">Optional</span></label><input id="device-imei" class="control" maxlength="40" placeholder="Device identifier"></div><div class="field"><label class="field-label" for="device-condition">Device condition</label><select id="device-condition" class="control"><option value="Not recorded">Not recorded</option><option>Good</option><option>Scratched / dented</option><option>Display broken</option><option>Water damaged</option><option>Not powering on</option><option>Physically damaged</option></select></div><div class="field span-two"><label class="field-label" for="device-problem">Reported problem <b>*</b></label><textarea id="device-problem" class="control textarea" rows="3" maxlength="1500" placeholder="Describe the customer's reported issue…" required></textarea></div><div class="field"><label class="field-label" for="replaced-parts">Replaced parts <span class="optional">Optional</span></label><input id="replaced-parts" class="control" maxlength="300" placeholder="e.g. Display, charging flex"></div><div class="field"><label class="field-label" for="accessories">Accessories received</label><input id="accessories" class="control" maxlength="300" placeholder="e.g. SIM tray, cover, charger"></div></div>
+              </section>
+              <section class="panel form-card"><div class="form-section-head"><div class="section-number">03</div><div><h2>Service & handover</h2><p>Assign the device and track the repair lifecycle.</p></div></div>
+                <div class="form-grid two-col"><div class="field"><label class="field-label" for="phone-location">Phone placed location</label><input id="phone-location" class="control" maxlength="120" placeholder="e.g. Shelf A / Drawer 2"></div><div class="field"><label class="field-label" for="device-given-to">Device given to</label><input id="device-given-to" class="control" maxlength="80" placeholder="Technician / staff name"></div><div class="field"><label class="field-label" for="repair-status">Repair status</label><select id="repair-status" class="control"><option>Received</option><option>Diagnosing</option><option>Waiting for parts</option><option>In progress</option><option>Ready for pickup</option><option>Completed</option><option>Delivered</option><option>On hold</option></select></div><div class="field"><label class="field-label" for="repair-priority">Priority</label><select id="repair-priority" class="control"><option>Normal</option><option>High</option><option>Urgent</option></select></div><div class="field"><label class="field-label" for="received-date">Received date</label><input id="received-date" type="date" class="control"></div><div class="field"><label class="field-label" for="due-date">Expected delivery</label><input id="due-date" type="date" class="control"></div><div class="field"><label class="field-label" for="warranty-days">Warranty (days)</label><input id="warranty-days" class="control" type="number" min="0" max="3650" value="0"></div><div class="field"><label class="field-label" for="worker-name-form">Handled by</label><input id="worker-name-form" class="control" maxlength="50" placeholder="Worker / technician"></div><div class="field span-two"><label class="field-label" for="repair-notes">Notes / internal remarks</label><textarea id="repair-notes" class="control textarea" rows="3" maxlength="2000" placeholder="Additional repair notes, diagnosis, warranty terms…"></textarea></div></div>
+              </section>
+              <section class="panel form-card"><div class="form-section-head"><div class="section-number">04</div><div><h2>Device photos</h2><p>Use the camera or attach images of the phone and damage.</p></div></div><label for="device-photos" class="upload-zone"><input id="device-photos" type="file" accept="image/*" capture="environment" multiple><span class="upload-icon">◎</span><strong>Tap to capture or upload photos</strong><small>Up to 4 photos · compressed before sync · JPG / PNG / WebP</small></label><div id="photo-preview" class="photo-preview"></div><p class="privacy-note">Photos are stored in the shop's private Google Drive folder after cloud sync.</p></section>
+            </div>
+            <aside class="form-side-col">
+              <section class="panel payment-card"><div class="form-section-head"><div class="section-number">05</div><div><h2>Payment summary</h2><p>Pending amount calculates automatically.</p></div></div><div class="field"><label class="field-label" for="total-amount">Total amount (₹) <b>*</b></label><div class="currency-input"><span>₹</span><input id="total-amount" class="control" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" required></div></div><div class="field"><label class="field-label" for="amount-paid">Amount given by customer (₹)</label><div class="currency-input"><span>₹</span><input id="amount-paid" class="control" type="number" inputmode="decimal" min="0" step="0.01" value="0"></div></div><div class="amount-divider"></div><div class="amount-row"><span>Pending amount</span><strong id="pending-preview">₹0.00</strong></div><div class="amount-row small"><span>Payment status</span><span id="payment-status" class="payment-pill unpaid">Unpaid</span></div><div class="payment-progress"><i id="payment-progress-bar"></i></div><div class="field"><label class="field-label" for="payment-method">Payment method</label><select id="payment-method" class="control"><option>Cash</option><option>UPI</option><option>Bank transfer</option><option>Card</option><option>Other</option></select></div></section>
+              <section class="panel save-card"><div class="save-lock">✦</div><h3>Ready to save?</h3><p>Your report saves to this device first, then syncs to the shared shop database and Google Drive.</p><button id="save-report" class="btn btn-primary btn-full" type="submit"><span id="save-button-label">Save report & generate PDF</span><span>↗</span></button><div class="save-meta"><span>✓ Local backup</span><span>✓ Cloud sync queue</span></div></section>
+              <div class="form-help"><span>ⓘ</span><p>Do not enter customer OTPs, banking PINs, or personal device passwords in repair notes.</p></div>
+            </aside>
+          </div>
+        </form>
+      </section>
+
+      <section id="view-jobs" class="view">
+        <div class="page-heading"><div><div class="eyebrow">SERVICE OPERATIONS</div><h1>Repair <span class="accent">register.</span></h1><p class="muted">Every device, every stage, one searchable register.</p></div><button class="btn btn-primary" data-action="new-repair">＋ New repair</button></div>
+        <section class="panel register-panel"><div class="register-toolbar"><div class="register-search"><span>⌕</span><input id="job-search" type="search" placeholder="Search name, phone, job ID, model, IMEI…"></div><div class="toolbar-filters"><select id="job-status-filter" class="control compact-control"><option value="">All statuses</option><option>Received</option><option>Diagnosing</option><option>Waiting for parts</option><option>In progress</option><option>Ready for pickup</option><option>Completed</option><option>Delivered</option><option>On hold</option><option>Archived</option></select><select id="job-type-filter" class="control compact-control"><option value="">All types</option><option>Customer</option><option>Retailer</option></select><select id="job-sort" class="control compact-control"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="pending">Highest pending</option><option value="name">Customer name</option></select></div></div><div class="register-summary"><span id="job-result-count">0 records</span><span>Search runs locally for instant results</span></div><div class="table-wrap"><table class="data-table"><thead><tr><th>JOB / CUSTOMER</th><th>DEVICE</th><th>STATUS</th><th>AMOUNT</th><th>RECEIVED</th><th></th></tr></thead><tbody id="jobs-table-body"></tbody></table></div><div id="jobs-empty" class="empty-state hidden"><span>▤</span><strong>No matching repairs</strong><p>Try another search or create a new repair record.</p><button class="btn btn-secondary" data-action="new-repair">Create repair</button></div></section>
+      </section>
+
+      <section id="view-customers" class="view">
+        <div class="page-heading"><div><div class="eyebrow">CUSTOMER RELATIONSHIPS</div><h1>Customer <span class="accent">book.</span></h1><p class="muted">A complete service history, attached to each customer.</p></div><button class="btn btn-primary" data-action="new-repair">＋ Add customer repair</button></div>
+        <section class="panel register-panel"><div class="register-toolbar"><div class="register-search"><span>⌕</span><input id="customer-search" type="search" placeholder="Search customer name or mobile…"></div><div class="toolbar-filters"><span class="small-muted" id="customer-count">0 customers</span></div></div><div id="customers-grid" class="customers-grid"></div><div id="customers-empty" class="empty-state hidden"><span>♙</span><strong>No customers yet</strong><p>Customer profiles appear automatically when you save a repair.</p></div></section>
+      </section>
+
+      <section id="view-reports" class="view">
+        <div class="page-heading"><div><div class="eyebrow">BUSINESS INTELLIGENCE</div><h1>Reports & <span class="accent">payments.</span></h1><p class="muted">Track repair volume, collections and outstanding balances.</p></div><button class="btn btn-secondary" data-action="export-data">⇩ Export CSV</button></div>
+        <div class="metric-grid report-metrics"><article class="metric-card"><div class="metric-top"><span>TOTAL REVENUE</span><span class="metric-icon">₹</span></div><div class="metric-value" id="report-total">₹0</div><div class="metric-foot">Total quoted repair value</div></article><article class="metric-card"><div class="metric-top"><span>COLLECTED</span><span class="metric-icon green-icon">✓</span></div><div class="metric-value" id="report-collected">₹0</div><div class="metric-foot">Payments received</div></article><article class="metric-card"><div class="metric-top"><span>OUTSTANDING</span><span class="metric-icon amber-icon">◷</span></div><div class="metric-value" id="report-outstanding">₹0</div><div class="metric-foot">Balance pending</div></article><article class="metric-card"><div class="metric-top"><span>AVERAGE JOB VALUE</span><span class="metric-icon">⌁</span></div><div class="metric-value" id="report-average">₹0</div><div class="metric-foot">Per repair job</div></article></div>
+        <div class="dashboard-grid reports-grid"><section class="panel"><div class="panel-heading"><div><div class="eyebrow">JOB DISTRIBUTION</div><h2>Repair status</h2></div></div><div id="status-chart" class="bar-chart"></div></section><section class="panel"><div class="panel-heading"><div><div class="eyebrow">PAYMENT FOLLOW-UP</div><h2>Outstanding balances</h2></div></div><div id="pending-list" class="pending-list"></div></section></div>
+      </section>
+
+      <section id="view-activity" class="view">
+        <div class="page-heading"><div><div class="eyebrow">TEAM OPERATIONS</div><h1>Activity <span class="accent">log.</span></h1><p class="muted">Recent changes recorded on this device and in the shared workspace.</p></div><button class="btn btn-secondary" id="refresh-activity">↻ Refresh</button></div>
+        <section class="panel activity-panel"><div id="activity-list" class="activity-list"></div><div id="activity-empty" class="empty-state hidden"><span>◷</span><strong>No activity yet</strong><p>Saved and synced repair actions will appear here.</p></div></section>
+      </section>
+
+      <section id="view-settings" class="view">
+        <div class="page-heading"><div><div class="eyebrow">WORKSPACE CONTROL</div><h1>System <span class="accent">settings.</span></h1><p class="muted">Connection, local data, backups and worker preferences.</p></div></div>
+        <div class="settings-grid"><section class="panel settings-card"><div class="settings-card-head"><span class="settings-symbol">⇄</span><div><h2>Google Apps Script connection</h2><p>Shared backend endpoint locked in the published app configuration.</p></div></div><div class="settings-status"><span id="settings-connection-dot" class="status-dot"></span><div><strong id="settings-connection-title">Not configured</strong><small id="settings-connection-detail">Paste the Web App URL in js/config.js, then publish.</small></div></div><div class="readonly-config"><label>Configured endpoint</label><code id="configured-url">Not configured</code><span class="lock-label">▣ READ ONLY · CONFIGURED BY OWNER</span></div><div class="settings-actions"><button class="btn btn-secondary" id="test-connection">Test connection</button><button class="btn btn-quiet" id="sync-settings">Sync now</button></div></section>
+          <section class="panel settings-card"><div class="settings-card-head"><span class="settings-symbol teal-bg">▣</span><div><h2>Local data & backup</h2><p>This browser keeps an offline copy and a retry queue.</p></div></div><div class="storage-stats"><div><strong id="local-record-count">0</strong><small>Cached repair records</small></div><div><strong id="queue-count">0</strong><small>Waiting to sync</small></div><div><strong id="local-customer-count">0</strong><small>Customer profiles</small></div></div><div class="settings-actions"><button class="btn btn-secondary" data-action="export-data">Export JSON backup</button><button class="btn btn-quiet" id="download-csv">Download CSV</button></div></section>
+          <section class="panel settings-card"><div class="settings-card-head"><span class="settings-symbol amber-bg">♙</span><div><h2>Worker profile</h2><p>Set the name displayed on repair reports and activity.</p></div></div><label class="field-label" for="settings-worker">Worker / technician name</label><input id="settings-worker" class="control" maxlength="50" placeholder="Your display name"><div class="settings-actions"><button class="btn btn-secondary" id="save-worker">Save profile</button><span id="worker-save-note" class="small-muted"></span></div></section>
+          <section class="panel settings-card"><div class="settings-card-head"><span class="settings-symbol violet-bg">⬡</span><div><h2>Installable app</h2><p>Add WEFIXIT to Android, Windows or your supported browser.</p></div></div><div class="install-instructions"><p><b>Android:</b> Open in Chrome and use Install app / Add to Home screen.</p><p><b>Windows:</b> Open in Edge or Chrome and select Install this site as an app.</p><p><b>Offline:</b> Previously loaded pages and local records remain available; cloud sync resumes online.</p></div><div class="settings-actions"><button class="btn btn-secondary" id="settings-install">Install WEFIXIT</button></div></section>
+          <section class="panel settings-card security-card"><div class="settings-card-head"><span class="settings-symbol red-bg">⌑</span><div><h2>Security & access</h2><p>Shared shop access with device-level remembered sessions.</p></div></div><div class="security-note"><strong>Shared password: WEFIXIT</strong><p>The current shared key is verified by Apps Script. Each browser stores its signed session token locally. Change the key in the Apps Script project when staff access should be revoked.</p><p>Because all workers share one password, it is not individual identity verification. Avoid saving sensitive device unlock codes or customer banking information.</p></div><div class="settings-actions"><button class="btn btn-quiet" id="lock-workspace">Lock this device</button></div></section>
+        </div>
+        <div class="settings-footer">24×7 WEFIXIT · Local-first repair operations · <span>╰─➤ ⚡ 𝐁𝐔𝐈𝐋𝐓 𝐁𝐘 𝐅𝐀𝐈𝐙𝐀𝐍</span></div>
+      </section>
+
+      <footer class="main-footer"><span>24×7 WEFIXIT <i>·</i> REPAIR MANAGEMENT</span><span>╰─➤ ⚡ 𝐁𝐔𝐈𝐋𝐓 𝐁𝐘 𝐅𝐀𝐈𝐙𝐀𝐍</span></footer>
+    </main>
+  </div>
+
+  <div id="modal-root" class="modal-root" aria-live="polite"></div>
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <div id="bridge-host" class="bridge-host" aria-hidden="true"></div>
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/bridge.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
